@@ -1,45 +1,32 @@
 import { Injectable } from '@nestjs/common';
-import { randomUUID } from 'crypto';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
-import { Task } from './entities/task.entity';
+import { Task, TaskDocument } from './schemas/task.schema';
 
 @Injectable()
 export class TasksService {
-	private readonly tasks: Task[] = [];
+	constructor(@InjectModel(Task.name) private readonly taskModel: Model<TaskDocument>) {}
 
-	create(createTaskDto: CreateTaskDto): Task {
-		const task = {
-			id: randomUUID(),
-			description: createTaskDto.description,
-			category: createTaskDto.category
-		} as Task;
-		this.tasks.push(task);
-
-		return task;
+	async create(createTaskDto: CreateTaskDto): Promise<Task> {
+		const createdTask = await this.taskModel.create(createTaskDto);
+		return createdTask;
 	}
 
-	findAll(): Task[] {
-		return this.tasks;
+	async findAll(): Promise<Task[]> {
+		return await this.taskModel.find().exec();
 	}
 
-	findOne(id: string): Task {
-		return this.tasks.find(task => task.id === id);
+	async findOne(id: string): Promise<Task> {
+		return await this.taskModel.findById(id).exec();
 	}
 
-	update(id: string, updateTaskDto: UpdateTaskDto): Task {
-		const taskIndex = this.tasks.findIndex(task => task.id === id);
-		let task = this.tasks.at(taskIndex);
-
-		task.description = updateTaskDto.description ?? task.description;
-		task.category = updateTaskDto.category ?? task.category;
-
-		this.tasks.splice(taskIndex, 1, task);
-		return task;
+	async update(id: string, updateTaskDto: UpdateTaskDto): Promise<Task> {
+		return await this.taskModel.findByIdAndUpdate(id, updateTaskDto, { new: true }).exec();
 	}
 
-	remove(id: string): void {
-		const taskIndex = this.tasks.findIndex(task => task.id === id);
-		this.tasks.splice(taskIndex, 1);
+	async remove(id: string): Promise<void> {
+		await this.taskModel.findByIdAndDelete(id).exec();
 	}
 }
