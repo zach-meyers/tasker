@@ -7,7 +7,7 @@
 		{
 			"type": "pwa-chrome",
 			"request": "launch",
-			"name": "Launch Chrome against localhost",
+			"name": "chrome",
 			"url": "http://localhost:3000/swagger",
 			"webRoot": "${workspaceFolder}"
 		}

@@ -1,0 +1,50 @@
+{
+	"namespaces": ["public"],
+	"name": "public",
+	"tables": [
+		{
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "varchar(255)",
+					"unsigned": false,
+					"autoincrement": false,
+					"primary": false,
+					"nullable": false,
+					"mappedType": "string"
+				},
+				"description": {
+					"name": "description",
+					"type": "varchar(255)",
+					"unsigned": false,
+					"autoincrement": false,
+					"primary": false,
+					"nullable": false,
+					"mappedType": "string"
+				},
+				"category": {
+					"name": "category",
+					"type": "varchar(255)",
+					"unsigned": false,
+					"autoincrement": false,
+					"primary": false,
+					"nullable": true,
+					"mappedType": "string"
+				}
+			},
+			"name": "task",
+			"schema": "public",
+			"indexes": [
+				{
+					"keyName": "task_pkey",
+					"columnNames": ["id"],
+					"composite": false,
+					"primary": true,
+					"unique": true
+				}
+			],
+			"checks": [],
+			"foreignKeys": {}
+		}
+	]
+}
