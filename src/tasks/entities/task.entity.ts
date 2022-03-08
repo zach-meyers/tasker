@@ -3,7 +3,7 @@ import { randomUUID } from 'crypto';
 
 @Entity()
 export class Task {
-	@PrimaryKey()
+	@PrimaryKey({ columnType: 'uuid' })
 	id: string = randomUUID();
 
 	@Property()
