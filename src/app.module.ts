@@ -3,6 +3,8 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import config from './config/config';
 import { TasksModule } from './tasks/tasks.module';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
 	imports: [
@@ -21,6 +23,8 @@ import { TasksModule } from './tasks/tasks.module';
 				password: configService.get('database.password')
 			})
 		}),
+		AuthModule,
+		UsersModule,
 		TasksModule
 	]
 })
